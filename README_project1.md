@@ -11,9 +11,24 @@ Javascript will be used to manipulate the HTML with some CSS styling.
 ###Approach
 
 The idea for this came from how easily editable MapBox maps are using the developer tools they provide on their site.
-The game should address the following user stories:
 
-And conforms to a screen structure outlined in this wireframe:
+When presented with a full-page map on the screen showing the outline of a country and a general background, the game should address the following user stories.
+
+**User Stories**
+
+- A user can click on a button to start so the game can be played.
+- A user can choose from a list of possible names of the country shown so a guess can be made.
+- A user, if stumped, can press a button for a hint, which will add additional map information so a more informed guess can be made:
+	- neighboring country names
+	- capital city
+	- major roads
+	- other features
+- A user can "give up" and be shown the answer to end the game.
+- A user can get a score based on whether they guess with no hints, or one or two, so a relative measure of progress can be shown.
+- A user can give her initals if she wants to see the high scores and her score in relation to them so she can see how she rates to other players.
+
+
+The design will conform to a screen structure outlined in this wireframe:
 
 ###Install
 
