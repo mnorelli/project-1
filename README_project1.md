@@ -35,3 +35,12 @@ The design will conform to a screen structure outlined in this wireframe:
 Runs in browser!  Click https://mnorelli.github.io/project-1
 
 ###Unsolved Problems
+
+Can a MapBox map be made to fly to a country boundary?  If not, should it be made to work by passing in the center point and zoom level for each country, perhaps using an array of values?
+
+Will making that array be too time-consuming to do?
+
+Can the Earth be made to spin from country to country?
+
+Can the opening screen be a map that is moving?
+
