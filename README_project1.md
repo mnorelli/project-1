@@ -29,7 +29,7 @@ When presented with a full-page map on the screen showing the outline of a count
 
 
 The design will conform to a screen structure outlined in this wireframe:
-[[https://github.com/mnorelli/project-1/blob/bootstrap/images/wireframe2.png]]
+![wireframe](https://github.com/mnorelli/project-1/blob/bootstrap/images/wireframe2.png)
 
 ###Install
 
