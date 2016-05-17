@@ -1,5 +1,3 @@
-technologies used, the approach taken, installation instructions, unsolved problems, etc.
-
 # General Assembly Project 1:  Quountry Quiz!
 
 This browser-based game presents the user with a stripped down map where they guess the country shown, and can 
