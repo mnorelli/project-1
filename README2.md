@@ -1,4 +1,4 @@
-# General Assembly Project 1:  Quountry Quiz!
+# General Assembly Project 1:  Country Quiz!
 
 This browser-based game presents the user with a stripped down map where they guess the country shown, and can 
 get hints by adding more information to the map.
@@ -29,6 +29,7 @@ When presented with a full-page map on the screen showing the outline of a count
 
 
 The design will conform to a screen structure outlined in this wireframe:
+![wireframe](https://github.com/mnorelli/project-1/blob/bootstrap/images/wireframe2.png)
 
 ###Install
 
