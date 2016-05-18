@@ -25,7 +25,7 @@ When presented with a full-page map on the screen showing the outline of a count
 	- other features
 - A user can "give up" and be shown the answer to end the game.
 - A user can get a score based on whether they guess with no hints, or one or two, so a relative measure of progress can be shown.
-- A user can give her initals if she wants to see the high scores and her score in relation to them so she can see how she rates to other players.
+- A user can give her initials if she wants to see the high scores and her score in relation to them so she can see how she rates to other players.
 
 
 The design will conform to a screen structure outlined in this wireframe:
