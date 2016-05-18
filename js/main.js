@@ -3,6 +3,8 @@ window.onload = function(){
 
   // https://api.mapbox.com/geocoding/v5/mapbox.places/Botswana.json?access_token=pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw
 
+country = "Vietnam"
+
 mapboxgl.accessToken = 'pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw';
 var map = new mapboxgl.Map({
     container: 'map',
