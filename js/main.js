@@ -8,35 +8,36 @@ var dataSource = geocoder_endpoint+country+".json?access_token="+accessToken;
 
 window.onload = function(){
 
-mapboxgl.accessToken = accessToken;
+$.get(dataSource,function(data){
 
-var map = new mapboxgl.Map({
-    container: 'map',
-    bbox: [
-    19.9991470000001,
-    -26.907545,
-    29.375304,
-    -17.778158
-    ],
-    style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
-});
+  }).done(function(data){
 
-$.get(dataSource,function(){}).done(function(data){
-  var countryBounds = data.features[0].bbox;
-  // console.log(countryBounds)
-  
-  function fit(bounds) {
-      console.log("running fit")
-      map.fitBounds(bounds,
-        {linear: false,padding:20});
-  }
+    mapboxgl.accessToken = accessToken;
 
-  fit(countryBounds);
-  // window.setTimeout(fit(),1000);
+    var map = new mapboxgl.Map({
+        container: 'map',
+        bbox: [
+        19.9991470000001,
+        -26.907545,
+        29.375304,
+        -17.778158
+        ],
+        style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
+      });
+
+    var countryBounds = data.features[0].bbox;
+
+    function fit(bounds) {
+        console.log("running fit")
+        map.fitBounds(bounds,
+          {linear: false,padding:20});
+      }
+
+    fit(countryBounds);
 
   }).fail(function(response){
-          console.log("Error: '", response.statusText,"'");
-      });
+    console.log("Error: '", response.statusText,"'");
+  });
 
 
 
