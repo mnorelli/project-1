@@ -27,13 +27,11 @@ $.get(dataSource,function(data){
 
     var countryBounds = data.features[0].bbox;
 
-    function fit(bounds) {
+    map.on("load",function() {
         console.log("running fit")
-        map.fitBounds(bounds,
+        map.fitBounds(countryBounds,
           {linear: false,padding:20});
-      }
-
-    fit(countryBounds);
+      });
 
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
