@@ -1,10 +1,12 @@
 console.log("Linked.");
 
-var country = "Italy"
+var country = "Bolivia"
 
 var geocoder_endpoint = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 var accessToken = "pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw";
 var dataSource = geocoder_endpoint+country+".json?access_token="+accessToken;
+var worldBase = "mapbox://styles/mnorelli/ciobrznir0063adnmx40se090"
+var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
 window.onload = function(){
 
@@ -28,10 +30,37 @@ $.get(dataSource,function(data){
     var countryBounds = data.features[0].bbox;
 
     map.on("load",function() {
-        console.log("running fit")
         map.fitBounds(countryBounds,
-          {linear: false,padding:20});
-      });
+          {linear: false,padding:30});
+
+    function addContours() {
+      console.log("contours")
+        map.addSource('terrain-data', {
+            type: 'vector',
+            url: 'mapbox://mapbox.mapbox-terrain-v2'
+        });
+        map.addLayer({
+            "id": "terrain-data",
+            "type": "line",
+            "source": "terrain-data",
+            "source-layer": "contour",
+            "layout": {
+                "line-join": "round",
+                "line-cap": "round"
+            },
+            "paint": {
+                "line-color": "#ff69b4",
+                "line-width": 1
+            }
+        });
+    }
+
+    addContours();
+
+
+
+
+      });  //end of onload
 
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
