@@ -30,17 +30,18 @@ var dataSource = geocoder_endpoint+country+".json?access_token="+accessToken
 
 $.get(dataSource,function(data){
   var countryBounds = data.features[0].bbox;
-  function fit() {
-      map.fitBounds(countryBounds);
-  }
-  window.setTimeout(fit(),1000);
-//     }
+  // console.log(countryBounds)
 
-//     .fail(function(response){
-//         console.log("Error: ", response);
-//     });
-// }
-});
+  function fit() {
+      map.fitBounds(countryBounds,
+        {linear: false,padding:20});
+  }
+
+  window.setTimeout(fit(),1000);
+
+}).fail(function(response){
+        console.log("Error: ", response);
+    });
 
 // map.on('load', function () {
 //     map.addSource('museums', {
