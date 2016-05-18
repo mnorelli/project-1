@@ -1,15 +1,15 @@
 console.log("Linked.");
-window.onload = function(){
-
-  // https://api.mapbox.com/geocoding/v5/mapbox.places/Botswana.json?access_token=pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw
 
 var country = "Italy"
 
-// two ways to get country location:
-//    geocode API
-//    GET request from API returned as JSON, parse
+var geocoder_endpoint = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
+var accessToken = "pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw";
+var dataSource = geocoder_endpoint+country+".json?access_token="+accessToken;
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw';
+window.onload = function(){
+
+mapboxgl.accessToken = accessToken;
+
 var map = new mapboxgl.Map({
     container: 'map',
     bbox: [
@@ -18,30 +18,27 @@ var map = new mapboxgl.Map({
     29.375304,
     -17.778158
     ],
-    // zoom: 7,
-    // center: [ 30.056329, -3.462907],
-    // style: 'mapbox://styles/mapbox/outdoors-v9' //hosted style id  37.888227 -122.566571
     style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
 });
 
-var geocoder_endpoint = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
-var accessToken="pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw"
-var dataSource = geocoder_endpoint+country+".json?access_token="+accessToken
-
-$.get(dataSource,function(data){
+$.get(dataSource,function(){}).done(function(data){
   var countryBounds = data.features[0].bbox;
   // console.log(countryBounds)
-
-  function fit() {
-      map.fitBounds(countryBounds,
+  
+  function fit(bounds) {
+      console.log("running fit")
+      map.fitBounds(bounds,
         {linear: false,padding:20});
   }
 
-  window.setTimeout(fit(),1000);
+  fit(countryBounds);
+  // window.setTimeout(fit(),1000);
 
-}).fail(function(response){
-        console.log("Error: ", response);
-    });
+  }).fail(function(response){
+          console.log("Error: '", response.statusText,"'");
+      });
+
+
 
 // map.on('load', function () {
 //     map.addSource('museums', {
