@@ -1,6 +1,6 @@
 console.log("Linked.");
 
-var country = "Bolivia"
+var country = "United Kingdom"
 
 var geocoder_endpoint = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 var accessToken = "pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw";
@@ -55,7 +55,27 @@ $.get(dataSource,function(data){
         });
     }
 
-    addContours();
+    function addCountryNames() {
+      console.log("country names")
+
+      map.setStyle(worldBaseNames);
+        // map.addSource('streets-source', {
+        //     type: 'symbol',
+        //     url: 'mapbox://mapbox.mapbox-streets-v7'
+        // });
+        // map.addLayer({
+        //     "id": "country-names",
+        //     "type": "symbol",
+        //     "source": "streets-source",
+        //     "source-layer": "country_label",
+        //     "layout": {},
+        //     "paint": {}
+        // });
+    }
+
+    map.on("click",function(){addCountryNames()});
+
+    // addContours();
 
 
 
