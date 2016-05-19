@@ -127,7 +127,27 @@ body {
   color: #999; /* IE8 proofing */
   color: rgba(255,255,255,.5);
 }
-
+.guess-form {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-weight: normal;
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.guess-form .form-control:focus {
+  z-index: 2;
+}
 
 /*
  * Affix and center
