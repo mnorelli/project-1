@@ -10,9 +10,9 @@ var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
 window.onload = function(){
 
-$.get(dataSource,function(data){
+$.get(dataSource,function(data){})
 
-  }).done(function(data){
+  .done(function(data){
 
     mapboxgl.accessToken = accessToken;
 
@@ -59,18 +59,19 @@ $.get(dataSource,function(data){
       console.log("country names")
 
       map.setStyle(worldBaseNames);
-        // map.addSource('streets-source', {
-        //     type: 'symbol',
-        //     url: 'mapbox://mapbox.mapbox-streets-v7'
-        // });
-        // map.addLayer({
-        //     "id": "country-names",
-        //     "type": "symbol",
-        //     "source": "streets-source",
-        //     "source-layer": "country_label",
-        //     "layout": {},
-        //     "paint": {}
-        // });
+      
+      // map.addSource('streets-source', {
+      //     type: 'symbol',
+      //     url: 'mapbox://mapbox.mapbox-streets-v7'
+      // });
+      // map.addLayer({
+      //     "id": "country-names",
+      //     "type": "symbol",
+      //     "source": "streets-source",
+      //     "source-layer": "country_label",
+      //     "layout": {},
+      //     "paint": {}
+      // });
     }
 
     map.on("click",function(){addCountryNames()});
@@ -86,7 +87,7 @@ $.get(dataSource,function(data){
       })
 
 
-      });  //end of onload
+      });  //end of map load
 
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
