@@ -20,27 +20,25 @@ body {
   margin-right: auto;
 }
 #center, #footer {
-  position: absolute;
   z-index: 1;
   text-align: center;
 }
 #center {
   position: absolute;   /*this makes the text able to be placed over the image without getting pushed over */
   width: 100%; /*set to 100% so text-align will fall in the center of the image*/
-  text-align: center; 
   font-size: 30pt;
   top: 50%;
   transform: translateY(-50%);
 }
 #footer {
-  top: 600px;
-  left: 500px;
-  width: 280px;
+  margin-top: 600px;
+  width: 20%;
 }
 form {
+  width: 100%;
   border-radius: 3px;
   border: 1px solid rgba(0,0,0,0.4);
-  /*font-family: 'Open Sans', sans-serif;*/
+  font-weight: lighter;
 }
 form.hidden {
   visibility: hidden;

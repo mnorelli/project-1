@@ -20,6 +20,7 @@ window.onload = function(){
   say("Guess a country by its outline.  Click to play!","black")
   $("#message").on("click", function(){
     say("","black")
+    $("form").removeClass("hidden")
   })
 
 
