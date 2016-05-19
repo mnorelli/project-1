@@ -77,7 +77,13 @@ $.get(dataSource,function(data){
 
     // addContours();
 
-
+    $("form").on("submit", function(event){
+        event.preventDefault(); // Stops the form from submitting!
+        if ($("input#guess").val()===country) {
+          alert("You guessed it! "+country.toUpperCase());
+          map.setStyle(worldBaseNames);
+        } else console.log("Wrong")
+      })
 
 
       });  //end of onload
@@ -85,15 +91,6 @@ $.get(dataSource,function(data){
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
   });
-
-  $("form").on("submit", function(event){
-      event.preventDefault(); // Stops the form from submitting!
-      if ($("input#guess").val()===country) {
-        alert("You guessed it! "+country.upcase());
-        addCountryNames();
-      }
-    })
-
 
 // map.on('load', function () {
 //     map.addSource('museums', {
