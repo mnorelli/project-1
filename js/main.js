@@ -8,7 +8,20 @@ var dataSource = geocoder_endpoint+country+".json?access_token="+accessToken;
 var worldBase = "mapbox://styles/mnorelli/ciobrznir0063adnmx40se090"
 var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
+function say(status,color){
+  var msg = document.querySelector("#message");
+  msg.textContent = status;
+  msg.style.color = color;
+}
+
 window.onload = function(){
+
+// start
+  say("Guess a country by its outline.  Click to play!","black")
+  $("#message").on("click", function(){
+    say("","black")
+  })
+
 
 $.get(dataSource,function(data){})
 

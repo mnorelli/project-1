@@ -2,8 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MapBox tests</title>
+  <title>Country Quiz</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- favicon -->
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon"/>
   <!-- Font  -->
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet" type="text/css">
   <!-- jQuery -->
@@ -29,12 +31,16 @@
       </div>
     </div> -->
     <div class="my-fluid-container">
-      <div id="row" id="map">
-        <div></div>
+      <div class="row">
         <div class="col-md-12" id="map"></div>
-        <form>
+        <div id="center">
+          <p id="message"></p>
+        </div>
+        <div id="footer">
+          <form class="hidden">
             <input type="text" class="form-control" id="guess" placeholder="Your guess">
-        </form>
+          </form>
+        </div>
       </div>
     </div>
 
