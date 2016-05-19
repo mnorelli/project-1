@@ -34,6 +34,7 @@ body {
   color: #111;
   text-align: center;
   text-shadow: 0 1px 3px rgba(0,0,0,.5);
+  position: relative;
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -50,6 +51,12 @@ body {
   position:absolute; top:0; bottom:0; width:100%; 
   z-index: -1;
 }
+.mapboxgl-map {
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
 .site-wrapper-inner {
   display: table-cell;
   vertical-align: top;
@@ -62,6 +69,7 @@ body {
 /* Padding for spacing */
 .inner {
   padding: 30px;
+  z-index: 1;
 }
 
 

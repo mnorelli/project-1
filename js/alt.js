@@ -23,3 +23,4 @@ var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
         // filter: ["==","country_label","United Kingdom"]
         style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
       });
+map.resize()
