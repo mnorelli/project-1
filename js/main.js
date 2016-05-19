@@ -24,6 +24,9 @@ $.get(dataSource,function(data){})
         29.375304,
         -17.778158
         ],
+        // style: worldBaseNames,
+
+        // filter: ["==","country_label","United Kingdom"]
         style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
       });
 
@@ -38,18 +41,33 @@ $.get(dataSource,function(data){})
 
       map.setStyle(worldBaseNames);   // switch style to one showing country names
 
-      // map.addSource('streets-source', {
-      //     type: 'symbol',
+      // map.addSource('streetsV7', {
+      //     type: 'vector',
       //     url: 'mapbox://mapbox.mapbox-streets-v7'
       // });
+      // if (!map.getLayer("country-names")){ 
       // map.addLayer({
       //     "id": "country-names",
-      //     "type": "country",
-      //     "source": "streets-source",
+      //     "type": "symbol",
+      //     "source": "streetsV7",
       //     "source-layer": "country_label",
-      //     "layout": {},
-      //     "paint": {}
-      // });
+      //     "filter": ["==","$type","Point"],
+      //     "layout": {
+      //               "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+      //               "text-size": 11,
+      //               "text-transform": "uppercase",
+      //               "text-letter-spacing": 0.05,
+      //               "text-offset": [0, 1.5]},
+      //      "paint": {
+      //           "text-color": "#666",
+      //           "text-halo-color": "rgba(255,255,255,0.75)",
+      //           "text-halo-width": 1,
+      //           "text-halo-blur": 1
+      //       }
+      // })
+      // };
+
+      console.log(map.getClasses())
     }
 
     map.on("click",function(){addCountryNames()});
