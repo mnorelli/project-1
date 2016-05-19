@@ -86,6 +86,13 @@ $.get(dataSource,function(data){
     console.log("Error: '", response.statusText,"'");
   });
 
+  $("form").on("submit", function(event){
+      event.preventDefault(); // Stops the form from submitting!
+      if ($("input#guess").val()===country) {
+        alert("You guessed it! "+country.upcase());
+        addCountryNames();
+      }
+    })
 
 
 // map.on('load', function () {
