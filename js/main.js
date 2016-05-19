@@ -31,42 +31,20 @@ $.get(dataSource,function(data){})
 
     map.on("load",function() {
         map.fitBounds(countryBounds,
-          {linear: false,padding:30});
-
-    function addContours() {
-      console.log("contours")
-        map.addSource('terrain-data', {
-            type: 'vector',
-            url: 'mapbox://mapbox.mapbox-terrain-v2'
-        });
-        map.addLayer({
-            "id": "terrain-data",
-            "type": "line",
-            "source": "terrain-data",
-            "source-layer": "contour",
-            "layout": {
-                "line-join": "round",
-                "line-cap": "round"
-            },
-            "paint": {
-                "line-color": "#ff69b4",
-                "line-width": 1
-            }
-        });
-    }
+          {linear: false,padding:30});  // slowly move to new map location
 
     function addCountryNames() {
       console.log("country names")
 
-      map.setStyle(worldBaseNames);
-      
+      map.setStyle(worldBaseNames);   // switch style to one showing country names
+
       // map.addSource('streets-source', {
       //     type: 'symbol',
       //     url: 'mapbox://mapbox.mapbox-streets-v7'
       // });
       // map.addLayer({
       //     "id": "country-names",
-      //     "type": "symbol",
+      //     "type": "country",
       //     "source": "streets-source",
       //     "source-layer": "country_label",
       //     "layout": {},
@@ -76,6 +54,28 @@ $.get(dataSource,function(data){})
 
     map.on("click",function(){addCountryNames()});
 
+    // function addContours() {
+    //   console.log("contours")
+    //     map.addSource('terrain-data', {
+    //         type: 'vector',
+    //         url: 'mapbox://mapbox.mapbox-terrain-v2'
+    //     });
+    //     map.addLayer({
+    //         "id": "terrain-data",
+    //         "type": "line",
+    //         "source": "terrain-data",
+    //         "source-layer": "contour",
+    //         "layout": {
+    //             "line-join": "round",
+    //             "line-cap": "round"
+    //         },
+    //         "paint": {
+    //             "line-color": "#ff69b4",
+    //             "line-width": 1
+    //         }
+    //     });
+    // }
+    //
     // addContours();
 
     $("form").on("submit", function(event){
