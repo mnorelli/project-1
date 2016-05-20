@@ -35,7 +35,8 @@ The design will conform to a screen structure outlined in this wireframe:
 
 ###Install
 
-Runs in browser!  Click https://mnorelli.github.io/project-1
+Runs in browser!  Play it now through [Github Pages](https://mnorelli.github.io/project-1). 
+If forking this repo, _please_ register for and replace my code with your own access token from [MapBox](https://www.mapbox.com/studio/account/tokens/).
 
 ###Unsolved Problems
 
