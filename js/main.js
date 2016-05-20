@@ -13,13 +13,20 @@ function load(countries) {   // this function is run waaay at the bottom, after 
     Data.countryName = countries[index].name.common;
     Data.countryRegion = countries[index].subregion;
     Data.capital = countries[index].capital
-    Data.dataSource = geocoder_endpoint+Data.countryName+".json?access_token="+accessToken;
+    Data.dataSource = geocoder_endpoint+Data.countryName+".json?access_token="+accessToken+"";
 }
 
-function say(status,color){
-  var msg = document.querySelector("#center-message");
+function say(status,where){
+  var msg = document.querySelector("#"+where+"-message");
   msg.textContent = status;
-  msg.style.color = color;
+  // msg.style.color = color;
+  return
+}
+
+
+function addCountryNames() {
+  console.log("country names")
+  map.setStyle(worldBaseNames);   // switch style to one showing country names
 }
 
 mapboxgl.accessToken = accessToken;
@@ -35,6 +42,7 @@ var map = new mapboxgl.Map({
     // style: worldBaseNames,
 
     // filter: ["==","country_label","United Kingdom"]
+    // style: 'mapbox://styles/mapbox/emerald-v8'
     style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
   });
 
@@ -46,36 +54,38 @@ $.get(Data.dataSource,function(data){})
 
     Data.countryBounds = data.features[0].bbox;
 
+    console.log("answer: ",Data.countryName, Data.countryBounds)
+
     map.on("load",function() {
       map.fitBounds(Data.countryBounds,
         {linear: false,padding:30});  // slowly move to new map location
-      say("Guess a country by its outline.  Click to play!","black")
+      say("Guess a country by its outline.  Click to play!","center")
       $("#center-message").on("click", function(){
-        say("","black")
+        say("","center")
         $("#footer").removeClass("hidden")
       })
-
-    function addCountryNames() {
-      console.log("country names")
-      map.setStyle(worldBaseNames);   // switch style to one showing country names
-      console.log(map.getClasses())
-    }
 
     map.on("click",function(){addCountryNames()});
 
     $("form").on("submit", function(event){
-        event.preventDefault(); // Stops the form from submitting!
-        if ($("input#guess").val()===Data.countryName) {
-          alert("You guessed it! "+Data.countryName.toUpperCase());
-          map.setStyle(worldBaseNames);
-        } else console.log("Wrong")
+      if ($("input#guess").val()===Data.countryName) {
+        alert("You guessed it! "+Data.countryName.toUpperCase());
+        addCountryNames();
+      } else {
+        say("Try again!","footer")
+        console.log("Wrong")
+      }
       })
+
+
 
     });  //end of map load
 
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
   });
+
+  return Data.countryName;
 
 }
 
