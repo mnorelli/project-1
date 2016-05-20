@@ -14,45 +14,40 @@ function say(status,color){
   msg.style.color = color;
 }
 
-// start
-  say("Guess a country by its outline.  Click to play!","black")
-  $("#message").on("click", function(){
-    say("","black")
-    $("form").removeClass("hidden")
-  })
+mapboxgl.accessToken = accessToken;
 
+var map = new mapboxgl.Map({
+    container: 'map',
+    bbox: [
+    19.9991470000001,
+    -26.907545,
+    29.375304,
+    -17.778158
+    ],
+    // style: worldBaseNames,
+
+    // filter: ["==","country_label","United Kingdom"]
+    style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
+  });
 
 $.get(dataSource,function(data){})
 
   .done(function(data){
 
-    mapboxgl.accessToken = accessToken;
-
-    var map = new mapboxgl.Map({
-        container: 'map',
-        bbox: [
-        19.9991470000001,
-        -26.907545,
-        29.375304,
-        -17.778158
-        ],
-        // style: worldBaseNames,
-
-        // filter: ["==","country_label","United Kingdom"]
-        style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
-      });
-
     var countryBounds = data.features[0].bbox;
 
     map.on("load",function() {
-        map.fitBounds(countryBounds,
-          {linear: false,padding:30});  // slowly move to new map location
-
+      map.fitBounds(countryBounds,
+        {linear: false,padding:30});  // slowly move to new map location
+      say("Guess a country by its outline.  Click to play!","black")
+      $("#message").on("click", function(){
+        say("","black")
+        $("form").removeClass("hidden")
+      })
+      
     function addCountryNames() {
       console.log("country names")
-
       map.setStyle(worldBaseNames);   // switch style to one showing country names
-
       console.log(map.getClasses())
     }
 
