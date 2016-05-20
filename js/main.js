@@ -9,7 +9,7 @@ var worldBase = "mapbox://styles/mnorelli/ciobrznir0063adnmx40se090"
 var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
 function say(status,color){
-  var msg = document.querySelector("#message");
+  var msg = document.querySelector("#center-message");
   msg.textContent = status;
   msg.style.color = color;
 }
@@ -42,9 +42,9 @@ $.get(dataSource,function(data){})
       map.fitBounds(countryBounds,
         {linear: false,padding:30});  // slowly move to new map location
       say("Guess a country by its outline.  Click to play!","black")
-      $("#message").on("click", function(){
+      $("#center-message").on("click", function(){
         say("","black")
-        $("form").removeClass("hidden")
+        $("#footer").removeClass("hidden")
       })
 
     function addCountryNames() {
