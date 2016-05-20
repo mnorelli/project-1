@@ -14,8 +14,6 @@ function say(status,color){
   msg.style.color = color;
 }
 
-window.onload = function(){
-
 // start
   say("Guess a country by its outline.  Click to play!","black")
   $("#message").on("click", function(){
@@ -55,60 +53,11 @@ $.get(dataSource,function(data){})
 
       map.setStyle(worldBaseNames);   // switch style to one showing country names
 
-      // map.addSource('streetsV7', {
-      //     type: 'vector',
-      //     url: 'mapbox://mapbox.mapbox-streets-v7'
-      // });
-      // if (!map.getLayer("country-names")){ 
-      // map.addLayer({
-      //     "id": "country-names",
-      //     "type": "symbol",
-      //     "source": "streetsV7",
-      //     "source-layer": "country_label",
-      //     "filter": ["==","$type","Point"],
-      //     "layout": {
-      //               "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
-      //               "text-size": 11,
-      //               "text-transform": "uppercase",
-      //               "text-letter-spacing": 0.05,
-      //               "text-offset": [0, 1.5]},
-      //      "paint": {
-      //           "text-color": "#666",
-      //           "text-halo-color": "rgba(255,255,255,0.75)",
-      //           "text-halo-width": 1,
-      //           "text-halo-blur": 1
-      //       }
-      // })
-      // };
-
       console.log(map.getClasses())
     }
 
     map.on("click",function(){addCountryNames()});
 
-    // function addContours() {
-    //   console.log("contours")
-    //     map.addSource('terrain-data', {
-    //         type: 'vector',
-    //         url: 'mapbox://mapbox.mapbox-terrain-v2'
-    //     });
-    //     map.addLayer({
-    //         "id": "terrain-data",
-    //         "type": "line",
-    //         "source": "terrain-data",
-    //         "source-layer": "contour",
-    //         "layout": {
-    //             "line-join": "round",
-    //             "line-cap": "round"
-    //         },
-    //         "paint": {
-    //             "line-color": "#ff69b4",
-    //             "line-width": 1
-    //         }
-    //     });
-    // }
-    //
-    // addContours();
 
     $("form").on("submit", function(event){
         event.preventDefault(); // Stops the form from submitting!
@@ -124,50 +73,3 @@ $.get(dataSource,function(data){})
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
   });
-
-// map.on('load', function () {
-//     map.addSource('museums', {
-//         type: 'vector',
-//         url: 'mapbox://mapbox.2opop9hr'
-//     });
-//     map.addLayer({
-//         'id': 'museums',
-//         'type': 'circle',
-//         'source': 'museums',
-//         'layout': {
-//             'visibility': 'visible'
-//         },
-//         'paint': {
-//             'circle-radius': 8,
-//             'circle-color': 'rgba(55,148,179,1)'
-//         },
-//         'source-layer': 'museum-cusco'
-//     });
-
-//     map.addSource('contours', {
-//         type: 'vector',
-//         url: 'mapbox://mapbox.mapbox-terrain-v2'
-//     });
-//     map.addLayer({
-//         'id': 'contours',
-//         'type': 'line',
-//         'source': 'contours',
-//         'source-layer': 'contour',
-//         'layout': {
-//             'visibility': 'visible',
-//             'line-join': 'round',
-//             'line-cap': 'round'
-//         },
-//         'paint': {
-//             'line-color': '#877b59',
-//             'line-width': 1
-//         }
-//     });
-// });
-
-
-
-
-
-
-}
