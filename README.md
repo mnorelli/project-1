@@ -41,7 +41,12 @@ Runs in browser!  Click https://mnorelli.github.io/project-1
 
 Much of the running of the application happens inside the `done` function of the `get` call against MapBox's geocoder API.  Can an object be built to carry the data out from this function's scope to the rest of the application without polluting global space?
 
+New map elements are shown by swapping out a whole MapBox style with another containing one or two changes authored in MapBox Studio.  A better method would be to add JSON objects of just one elemet, like capital cities, directly into the map, smoothing the transition.
+
+Finding an appropriate hosted data source proved challenging.  
+To get the project to completion without AJAX calls, a JSON object containing all world coutries in with multiple attributes is included in the Javascript file.  Clearly, AJAX calls would be better. 
+ 
 Can the opening screen be a map that is moving?
 
-Time taken to learn Bootstrap
+The developer struggled with CSS elements and the MapBox API. Transitoning the project into Bootstrap took time away from developing the basic game logic.  The MapBox API is vast, and chasing interesting elements and testing them also took time away from basic development.  These turned out to be less fruitful choices.
 
