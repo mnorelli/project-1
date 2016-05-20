@@ -30,6 +30,8 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
   });
 
+map.on("click",function(){addCountryNames()});
+
 $.get(dataSource,function(data){})
 
   .done(function(data){
@@ -44,7 +46,7 @@ $.get(dataSource,function(data){})
         say("","black")
         $("form").removeClass("hidden")
       })
-      
+
     function addCountryNames() {
       console.log("country names")
       map.setStyle(worldBaseNames);   // switch style to one showing country names
@@ -52,7 +54,6 @@ $.get(dataSource,function(data){})
     }
 
     map.on("click",function(){addCountryNames()});
-
 
     $("form").on("submit", function(event){
         event.preventDefault(); // Stops the form from submitting!
@@ -62,8 +63,7 @@ $.get(dataSource,function(data){})
         } else console.log("Wrong")
       })
 
-
-      });  //end of map load
+    });  //end of map load
 
   }).fail(function(response){
     console.log("Error: '", response.statusText,"'");
