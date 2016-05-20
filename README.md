@@ -40,12 +40,11 @@ If forking this repo, _please_ register for and replace my code with your own ac
 
 ###Unsolved Problems
 
-Much of the running of the application happens inside the `done` function of the `get` call against MapBox's geocoder API.  Can an object be built to carry the data out from this function's scope to the rest of the application without polluting global space?
+Bootstrap seems to be turning off MapBox navigation.  Map pan and zoom don't work after the start of the game.
 
 New map elements are shown by swapping out a whole MapBox style with another containing one or two changes authored in MapBox Studio.  A better method would be to add JSON objects of just one elemet, like capital cities, directly into the map, smoothing the transition.
 
-Finding an appropriate hosted data source proved challenging.  
-To get the project to completion without AJAX calls, a JSON object containing all world coutries in with multiple attributes is included in the Javascript file.  Clearly, AJAX calls would be better. 
+Finding an appropriate hosted data source for map details proved challenging.  To get the project to completion without AJAX calls, a JSON object containing all world coutries in with multiple attributes is included in the Javascript file.  Clearly, AJAX calls would be better. 
  
 Can the opening screen be a map that is moving?
 
