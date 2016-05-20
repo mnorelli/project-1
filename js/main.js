@@ -5,6 +5,17 @@ var accessToken = "pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7
 var worldBase = "mapbox://styles/mnorelli/ciobrznir0063adnmx40se090"
 var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
+var Data= {}
+
+function load(countries) {   // this function is run waaay at the bottom, after the countries object is set to its variable
+    var index = Math.floor(Math.random()*248);
+    Data.num = countries[index];
+    Data.countryName = countries[index].name.common;
+    Data.countryRegion = countries[index].subregion;
+    Data.capital = countries[index].capital
+    Data.dataSource = geocoder_endpoint+Data.countryName+".json?access_token="+accessToken;
+}
+
 function say(status,color){
   var msg = document.querySelector("#center-message");
   msg.textContent = status;
@@ -27,27 +38,16 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
   });
 
-map.on("click",function(){addCountryNames()});
+function runTheGame(){
 
-function getCountry(){
-  var num = Math.floor(Math.random()*248)
-  return countries[num]
-}
-
-var country = getCountry();
-var countryName = country.name.common;
-var countryRegion = country.subregion;
-var capital = country.capital
-var dataSource = geocoder_endpoint+countryName+".json?access_token="+accessToken;
-
-$.get(dataSource,function(data){})
+$.get(Data.dataSource,function(data){})
 
   .done(function(data){
 
-    var countryBounds = data.features[0].bbox;
+    Data.countryBounds = data.features[0].bbox;
 
     map.on("load",function() {
-      map.fitBounds(countryBounds,
+      map.fitBounds(Data.countryBounds,
         {linear: false,padding:30});  // slowly move to new map location
       say("Guess a country by its outline.  Click to play!","black")
       $("#center-message").on("click", function(){
@@ -65,8 +65,8 @@ $.get(dataSource,function(data){})
 
     $("form").on("submit", function(event){
         event.preventDefault(); // Stops the form from submitting!
-        if ($("input#guess").val()===country) {
-          alert("You guessed it! "+country.toUpperCase());
+        if ($("input#guess").val()===Data.countryName) {
+          alert("You guessed it! "+Data.countryName.toUpperCase());
           map.setStyle(worldBaseNames);
         } else console.log("Wrong")
       })
@@ -77,7 +77,7 @@ $.get(dataSource,function(data){})
     console.log("Error: '", response.statusText,"'");
   });
 
-
+}
 
 var countries = [
   {
@@ -11633,3 +11633,6 @@ var countries = [
   }
 ]
 
+console.log("countries length: "+countries.length)
+load(countries);
+runTheGame();
