@@ -1,20 +1,8 @@
 $(function(){   // when window is loaded (and when the countries data object is read)
 
-  console.log("Linked.");
+console.log("Linked.");
 
-load(countries);
-getCountry();
-showMap();
-
-$("#guess").on("submit", function(event){
-  if ($("input#guess").val()===Data.countryName) {
-    alert("You guessed it! "+Data.countryName.toUpperCase());
-    addCountryNames();
-  } else {
-    say("Try again!","footer")
-    console.log("Wrong")
-  }
-  })
+playGame();
 
 })  // end of window onload
 
@@ -33,15 +21,25 @@ var Data = {}
 // the Map object, also retains attributes set in functions
 var MapObj = {}
 
+function playGame(){
+  pick(countries);
+  getCountry();
+  showMap();
+  intro();
+  guessLoop();
+}
+
 // this function is run waaay at the bottom, after the countries object is read in
 // from a random number, it picks a country and populates the Data object with these details:
 //   country name, subregion, capital city
 // it also builds the request string sent to the API, filtering for countries 
 // (not points of interest or businesses, e.g.) to get geographic details:  
 //   bounding box
-function load(countries) {
+function pick(countries) {
   console.log("countries length: "+countries.length)  
   var index = Math.floor(Math.random()*248);
+  // var index = 72 // Fiji
+  var index = 233  // United States
   Data.num = countries[index];
   Data.countryName = countries[index].name.common;
   console.log("loading: ",Data.countryName)
@@ -66,9 +64,8 @@ function addCountryNames() {
 function fixData(){
   if (Data.countryName === "United States") Data.countryBounds = [-179.330950579, 18.765563302, -85, 71.540723637]; 
   // because of Aletian Islands(?), US bounding box extends from 179 lat to -179 lat, fills screen
-  if (Data.countryName === "Guinea-Bissau") load(countries);
-  // the geocoder
-
+  if (Data.countryName === "Guinea-Bissau") playGame();  // geocoder doesn't find this
+  if (Data.countryName === "Fiji") playGame();  //  Fiji straddles the int'l date line so maps to whole screen
 }
 
 function showMap(){
@@ -89,17 +86,10 @@ function showMap(){
   });
 
   // when map is drawn, move to the quizzed map location
-  // show the opening message
-  // when opening message is clicked, show the guess box and message there
   MapObj.map.on("load",function() {
     MapObj.map.fitBounds(Data.countryBounds,
       {linear: false,padding:30});  
     // MapObj.map.filter = ["!==","country_label",Data.countryName]  // doesn't work to hide the quizzed country label
-    say("Guess a country by its outline.  Click to play!","center")
-    $("#center-message").on("click", function(){
-      say("","center")
-      $("#footer").removeClass("hidden")
-    })
   })
 
   // "cheat" by clicking the map to show country names by switchung to the MapBox style that includes them
@@ -107,12 +97,39 @@ function showMap(){
   MapObj.map.on("click",function(){addCountryNames()});
 }
 
+  // show the opening message
+  // when opening message is clicked, show the guess box and message there
+function intro(){
+  say("Guess a country by its outline.  Click to play!","center")
+  $("#center-message").on("click", function(){
+    say("","center")
+    $("#footer").removeClass("hidden")
+  })
+}
+
+function guessLoop(){
+  $("#guess").on("submit", function(event){
+  event.preventDefault();
+  if ($("input#guess").val()===Data.countryName) {
+    console.log("guess",$("input#guess").val())
+    alert("You guessed it! "+Data.countryName.toUpperCase());
+    addCountryNames();
+  } else {
+    console.log("incorrect guess")
+    say("Try again!","footer")
+    console.log("Wrong")
+    debugger
+  }
+  })
+}
+
 function getCountry(){
 $.get(Data.dataSource,function(data){})
   .done(function(data){
-    if (!data.features[0].bbox) getCountry()
+    if (!data.features[0].bbox) playGame()
     else {
       Data.countryBounds = data.features[0].bbox;
+      fixData();
       console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
     }
   })  //end of map load
