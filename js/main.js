@@ -1,36 +1,51 @@
 console.log("Linked.");
 
+// starting variables for map
+// the URL parts needed for the API call, and two custom mapstyles, one showing country names and one without
 var geocoder_endpoint = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 var accessToken = "pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7aBYGw";
 var worldBase = "mapbox://styles/mnorelli/ciobrznir0063adnmx40se090"
 var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
+// the Data object, used to carry out the data returned from the API call to other functions without polluting global space
 var Data= {}
 
-function load(countries) {   // this function is run waaay at the bottom, after the countries object is set to its variable
+// this function is run waaay at the bottom, after the countries object is read in
+// from a random number, it picks a country and populates the Data object with details about it
+// it also builds the request string sent to the API, filtering for countries (not points of interest or businesses, e.g.)
+function load(countries) {   
     var index = Math.floor(Math.random()*248);
     Data.num = countries[index];
     Data.countryName = countries[index].name.common;
+    console.log("loading: ",Data.countryName)
     Data.countryRegion = countries[index].subregion;
     Data.capital = countries[index].capital
-    Data.dataSource = geocoder_endpoint+Data.countryName+".json?access_token="+accessToken+"";
+    Data.dataSource = geocoder_endpoint+Data.countryName+".json?types=country&access_token="+accessToken+"";
 }
 
+// used to pass messages to the screen
 function say(status,where){
   var msg = document.querySelector("#"+where+"-message");
   msg.textContent = status;
-  // msg.style.color = color;
-  return
 }
 
-
+// used to flip to a map style that includes names of countries
 function addCountryNames() {
   console.log("country names")
-  map.setStyle(worldBaseNames);   // switch style to one showing country names
+  map.setStyle(worldBaseNames);   
 }
 
-mapboxgl.accessToken = accessToken;
+// the MapBox geocoder sometimes returns bounding boxes that are hard to map.  This edits some data to produce a more meaningful display
+function fixData(){
+  if (Data.countryName === "United States") Data.countryBounds = [-179.330950579, 18.765563302, -85, 71.540723637]; 
+  // because of Aletian Islands(?), US bounding box extends from 179 lat to -179 lat, fills screen
+  if (Data.countryName === "Guinea-Bissau") load(countries);
+  // the geocoder
 
+}
+
+// creates the map with a default location in equatorial Africa and a style I authored in MapBox Studio
+mapboxgl.accessToken = accessToken;
 var map = new mapboxgl.Map({
     container: 'map',
     bbox: [
@@ -39,11 +54,10 @@ var map = new mapboxgl.Map({
     29.375304,
     -17.778158
     ],
-    // style: worldBaseNames,
+    // style: worldBaseNames
+    style: worldBase
 
     // filter: ["==","country_label","United Kingdom"]
-    // style: 'mapbox://styles/mapbox/emerald-v8'
-    style: 'mapbox://styles/mnorelli/ciobrznir0063adnmx40se090'
   });
 
 function runTheGame(){
@@ -54,11 +68,14 @@ $.get(Data.dataSource,function(data){})
 
     Data.countryBounds = data.features[0].bbox;
 
-    console.log("answer: ",Data.countryName, Data.countryBounds)
+    fixData();
+
+    console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
 
     map.on("load",function() {
       map.fitBounds(Data.countryBounds,
         {linear: false,padding:30});  // slowly move to new map location
+      map.filter = ["!==","country_label",Data.countryName]
       say("Guess a country by its outline.  Click to play!","center")
       $("#center-message").on("click", function(){
         say("","center")
@@ -87,7 +104,7 @@ $.get(Data.dataSource,function(data){})
 
   return Data.countryName;
 
-}
+}   // end of runTheGame
 
 var countries = [
   {
