@@ -7,12 +7,15 @@ var accessToken = "pk.eyJ1IjoibW5vcmVsbGkiLCJhIjoiU3BCcTNJQSJ9.4EsgnQLWdR10NXrt7
 var worldBase = "mapbox://styles/mnorelli/ciobrznir0063adnmx40se090"
 var worldBaseNames = "mapbox://styles/mnorelli/ciodesuuy0093ahm80g9jf6hq"
 
-// the Data object, used to carry out the data returned from the API call to other functions without polluting global space
+// the Data object, used to ferry out the data returned from the API call to other functions without polluting global space
 var Data= {}
 
 // this function is run waaay at the bottom, after the countries object is read in
-// from a random number, it picks a country and populates the Data object with details about it
-// it also builds the request string sent to the API, filtering for countries (not points of interest or businesses, e.g.)
+// from a random number, it picks a country and populates the Data object with these details:
+//   country name, subregion, capital city
+// it also builds the request string sent to the API, filtering for countries 
+// (not points of interest or businesses, e.g.) to get geographic details:  
+//   bounding box
 function load(countries) {   
     var index = Math.floor(Math.random()*248);
     Data.num = countries[index];
@@ -47,64 +50,62 @@ function fixData(){
 // creates the map with a default location in equatorial Africa and a style I authored in MapBox Studio
 mapboxgl.accessToken = accessToken;
 var map = new mapboxgl.Map({
-    container: 'map',
-    bbox: [
-    19.9991470000001,
-    -26.907545,
-    29.375304,
-    -17.778158
-    ],
-    // style: worldBaseNames
-    style: worldBase
+  container: 'map',
+  bbox: [
+  19.9991470000001,
+  -26.907545,
+  29.375304,
+  -17.778158
+  ],
+  // style: worldBaseNames
+  style: worldBase
 
-    // filter: ["==","country_label","United Kingdom"]
-  });
+  // filter: ["==","country_label","United Kingdom"]
+});
 
-function runTheGame(){
+// when map is drawn, move to the quizzed map location
+// show the opening message
+// when opening message is clicked, show the guess box and message there
+map.on("load",function() {
+  map.fitBounds(Data.countryBounds,
+    {linear: false,padding:30});  
+  // map.filter = ["!==","country_label",Data.countryName]  // doesn't work to hide the quizzed country label
+  say("Guess a country by its outline.  Click to play!","center")
+  $("#center-message").on("click", function(){
+    say("","center")
+    $("#footer").removeClass("hidden")
+  })
+})
 
+// "cheat" by clicking the map to show country names by switchung to the MapBox style that includes them
+// doesn't work after guess box is shown
+map.on("click",function(){addCountryNames()});
+
+$("#guess").on("submit", function(event){
+  if ($("input#guess").val()===Data.countryName) {
+    alert("You guessed it! "+Data.countryName.toUpperCase());
+    addCountryNames();
+  } else {
+    say("Try again!","footer")
+    console.log("Wrong")
+  }
+  })
+
+function getCountry(){
 $.get(Data.dataSource,function(data){})
-
   .done(function(data){
-
-    Data.countryBounds = data.features[0].bbox;
-
-    fixData();
-
-    console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
-
-    map.on("load",function() {
-      map.fitBounds(Data.countryBounds,
-        {linear: false,padding:30});  // slowly move to new map location
-      map.filter = ["!==","country_label",Data.countryName]
-      say("Guess a country by its outline.  Click to play!","center")
-      $("#center-message").on("click", function(){
-        say("","center")
-        $("#footer").removeClass("hidden")
-      })
-
-    map.on("click",function(){addCountryNames()});
-
-    $("form").on("submit", function(event){
-      if ($("input#guess").val()===Data.countryName) {
-        alert("You guessed it! "+Data.countryName.toUpperCase());
-        addCountryNames();
-      } else {
-        say("Try again!","footer")
-        console.log("Wrong")
-      }
-      })
-
-
-
-    });  //end of map load
-
-  }).fail(function(response){
+    if (!data.features[0].bbox) getCountry()
+    else {
+      Data.countryBounds = data.features[0].bbox;
+      console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
+    }
+  })  //end of map load
+  .fail(function(response){
     console.log("Error: '", response.statusText,"'");
   });
-
   return Data.countryName;
-
 }   // end of runTheGame
+
 
 var countries = [
   {
@@ -11662,4 +11663,4 @@ var countries = [
 
 console.log("countries length: "+countries.length)
 load(countries);
-runTheGame();
+getCountry();

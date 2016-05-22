@@ -34,12 +34,12 @@ body {
   margin-top: 500px;
   width: 20%;
 }
-form {
+#guess {
   width: 100%;
   border-radius: 3px;
   border: 1px solid rgba(0,0,0,0.4);
   font-weight: lighter;
 }
-form.hidden {
+#guess.hidden {
   visibility: hidden;
 }
