@@ -47,39 +47,43 @@ function fixData(){
 
 }
 
-// creates the map with a default location in equatorial Africa and a style I authored in MapBox Studio
-mapboxgl.accessToken = accessToken;
-var map = new mapboxgl.Map({
-  container: 'map',
-  bbox: [
-  19.9991470000001,
-  -26.907545,
-  29.375304,
-  -17.778158
-  ],
-  // style: worldBaseNames
-  style: worldBase
+function showMap(){
+  // creates the map with a default location in equatorial Africa and a style I authored in MapBox Studio
+  mapboxgl.accessToken = accessToken;
+  var map = new mapboxgl.Map({
+    container: 'map',
+    bbox: [
+    19.9991470000001,
+    -26.907545,
+    29.375304,
+    -17.778158
+    ],
+    // style: worldBaseNames
+    style: worldBase
 
-  // filter: ["==","country_label","United Kingdom"]
-});
+    // filter: ["==","country_label","United Kingdom"]
+  });
 
-// when map is drawn, move to the quizzed map location
-// show the opening message
-// when opening message is clicked, show the guess box and message there
-map.on("load",function() {
-  map.fitBounds(Data.countryBounds,
-    {linear: false,padding:30});  
-  // map.filter = ["!==","country_label",Data.countryName]  // doesn't work to hide the quizzed country label
-  say("Guess a country by its outline.  Click to play!","center")
-  $("#center-message").on("click", function(){
-    say("","center")
-    $("#footer").removeClass("hidden")
+  // when map is drawn, move to the quizzed map location
+  // show the opening message
+  // when opening message is clicked, show the guess box and message there
+  map.on("load",function() {
+    map.fitBounds(Data.countryBounds,
+      {linear: false,padding:30});  
+    // map.filter = ["!==","country_label",Data.countryName]  // doesn't work to hide the quizzed country label
+    say("Guess a country by its outline.  Click to play!","center")
+    $("#center-message").on("click", function(){
+      say("","center")
+      $("#footer").removeClass("hidden")
+    })
   })
-})
 
-// "cheat" by clicking the map to show country names by switchung to the MapBox style that includes them
-// doesn't work after guess box is shown
-map.on("click",function(){addCountryNames()});
+  // "cheat" by clicking the map to show country names by switchung to the MapBox style that includes them
+  // doesn't work after guess box is shown
+  map.on("click",function(){addCountryNames()});
+}
+
+showMap();
 
 $("#guess").on("submit", function(event){
   if ($("input#guess").val()===Data.countryName) {
