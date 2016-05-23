@@ -60,13 +60,19 @@ function addCountryNames() {
   MapObj.map.setStyle(worldBaseNames);   
 }
 
-// the MapBox geocoder sometimes returns bounding boxes that are hard to map.  This edits some data to produce a more meaningful display
+// the MapBox geocoder sometimes returns bounding boxes that are hard to map.  
+// This edits some data to produce a more meaningful display
 function fixData(){
   if (Data.countryName === "United States") Data.countryBounds = [-179.330950579, 18.765563302, -85, 71.540723637]; 
+  if (Data.countryName === "Russia") Data.countryBounds = [60, 41.185352938, 180.099847971, 81.961618459]
   // because of Aletian Islands(?), US bounding box extends from 179 lat to -179 lat, fills screen
-  if (Data.countryName === "Guinea-Bissau") playGame();  // geocoder doesn't find this
-  if (Data.countryName === "Fiji") playGame();  //  Fiji straddles the int'l date line so maps to whole screen
-  if (Data.countryName === "United States Minor Outlying Islands") playGame();  //  fills whole screen
+  var badOnes = ["Tokelau","Fiji","United States Minor Outlying Islands",
+                 "Mayotte","British Virgin Islands","Svalbard and Jan Mayen",
+                 "Åland Islands","Kiribati"]
+  //  the above aren't found by the geocoder or whose bbox fills the whole screen
+  for (var i in badOnes) {
+    if (Data.countryName === badOnes[i]) playGame();
+    }  
 }
 
 function showMap(){
@@ -111,41 +117,56 @@ function intro(){
 // terribly complicated code to use placeholder attribute of input box to manage
 // guesses because submit events cause page to reload with no guess handling
 function guessLoop(){
-  // $("#guess").submit(function(event){   
   var guessForm = document.querySelector("#guess")
-  guessForm.addEventListener("keypress",function(event){
-  // event.preventDefault();
-  var code = event.keyCode || event.which;
-  var keyd = String.fromCharCode(event.keyCode);
-  console.log(keyd)
-  var content = guessForm.getAttribute("placeholder");
-  if (code == 13) {  // enter key
-    if (content == Data.countryName) {
-      console.log("guess",guessForm.getAttribute("placeholder"))
+  guessForm.addEventListener("submit",function(event){
+    event.preventDefault();
+    var guess = $("input#guess").val()
+    console.log("value ",guess)
+    if (guess == Data.countryName) {
       alert("You guessed it! "+Data.countryName.toUpperCase());
       addCountryNames();
     } else {
-      guessForm.setAttribute("placeholder","")
       console.log("incorrect guess")
       say("Try again!","footer")
-      console.log("Wrong")
     }
-  } else if (code == 8) {   // backspace key 
-      console.log(content,"before slice")
-      var content = content.slice(0, -1)
-      console.log(content,"after slice")
-      guessForm.setAttribute("placeholder",content)
-  } else {
-    console.log("typed ",keyd)
-    if (content == "Your guess" || content == "") {
-      guessForm.setAttribute("placeholder",keyd)
-    } else {
-      var content = content + keyd
-      guessForm.setAttribute("placeholder",content)
-    }
-  }
-
+    guessLoop()
   })
+
+  // var guessForm = document.querySelector("#guess")
+  // guessForm.addEventListener("keypress",function(event){
+  // event.preventDefault();
+  // var code = event.keyCode || event.which;
+  // var keyd = String.fromCharCode(event.keyCode);
+  // console.log(keyd)
+  // var content = guessForm.getAttribute("placeholder");
+  // if (code == 13) {  // enter key
+  //   if (content == Data.countryName) {
+  //     console.log("guess",guessForm.getAttribute("placeholder"))
+  //     alert("You guessed it! "+Data.countryName.toUpperCase());
+  //     addCountryNames();
+  //   } else {
+  //     guessForm.setAttribute("placeholder","")
+  //     console.log("incorrect guess")
+  //     say("Try again!","footer")
+  //     console.log("Wrong")
+  //     guessLoop();
+  //   }
+  // } else if (code == 8) {   // backspace key 
+  //     console.log(content,"before slice")
+  //     var content = content.slice(0, -1)
+  //     console.log(content,"after slice")
+  //     guessForm.setAttribute("placeholder",content)
+  // } else {
+  //   console.log("typed ",keyd)
+  //   if (content == "Your guess" || content == "") {
+  //     guessForm.setAttribute("placeholder",keyd)
+  //   } else {
+  //     var content = content + keyd
+  //     guessForm.setAttribute("placeholder",content)
+  //   }
+  // }
+
+  // })
 }
 
 function getCountry(){
