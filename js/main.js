@@ -39,7 +39,7 @@ function pick(countries) {
   console.log("countries length: "+countries.length)  
   var index = Math.floor(Math.random()*248);
   // var index = 72 // Fiji
-  var index = 233  // United States
+  // var index = 233  // United States
   Data.num = countries[index];
   Data.countryName = countries[index].name.common;
   console.log("loading: ",Data.countryName)
@@ -66,6 +66,7 @@ function fixData(){
   // because of Aletian Islands(?), US bounding box extends from 179 lat to -179 lat, fills screen
   if (Data.countryName === "Guinea-Bissau") playGame();  // geocoder doesn't find this
   if (Data.countryName === "Fiji") playGame();  //  Fiji straddles the int'l date line so maps to whole screen
+  if (Data.countryName === "United States Minor Outlying Islands") playGame();  //  fills whole screen
 }
 
 function showMap(){
@@ -107,19 +108,43 @@ function intro(){
   })
 }
 
+// terribly complicated code to use placeholder attribute of input box to manage
+// guesses because submit events cause page to reload with no guess handling
 function guessLoop(){
-  $("#guess").on("submit", function(event){
-  event.preventDefault();
-  if ($("input#guess").val()===Data.countryName) {
-    console.log("guess",$("input#guess").val())
-    alert("You guessed it! "+Data.countryName.toUpperCase());
-    addCountryNames();
+  // $("#guess").submit(function(event){   
+  var guessForm = document.querySelector("#guess")
+  guessForm.addEventListener("keypress",function(event){
+  // event.preventDefault();
+  var code = event.keyCode || event.which;
+  var keyd = String.fromCharCode(event.keyCode);
+  console.log(keyd)
+  var content = guessForm.getAttribute("placeholder");
+  if (code == 13) {  // enter key
+    if (content == Data.countryName) {
+      console.log("guess",guessForm.getAttribute("placeholder"))
+      alert("You guessed it! "+Data.countryName.toUpperCase());
+      addCountryNames();
+    } else {
+      guessForm.setAttribute("placeholder","")
+      console.log("incorrect guess")
+      say("Try again!","footer")
+      console.log("Wrong")
+    }
+  } else if (code == 8) {   // backspace key 
+      console.log(content,"before slice")
+      var content = content.slice(0, -1)
+      console.log(content,"after slice")
+      guessForm.setAttribute("placeholder",content)
   } else {
-    console.log("incorrect guess")
-    say("Try again!","footer")
-    console.log("Wrong")
-    debugger
+    console.log("typed ",keyd)
+    if (content == "Your guess" || content == "") {
+      guessForm.setAttribute("placeholder",keyd)
+    } else {
+      var content = content + keyd
+      guessForm.setAttribute("placeholder",content)
+    }
   }
+
   })
 }
 
