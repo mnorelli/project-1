@@ -29,12 +29,10 @@ function playGame(){
   guessLoop();
 }
 
-// this function is run waaay at the bottom, after the countries object is read in
-// from a random number, it picks a country and populates the Data object with these details:
+// Pick a country and populate the Data object with these details:
 //   country name, subregion, capital city
-// it also builds the request string sent to the API, filtering for countries 
-// (not points of interest or businesses, e.g.) to get geographic details:  
-//   bounding box
+// Build the request string sent to the API, filtering for countries 
+// (not points of interest or businesses, e.g.) to get its bounding box
 function pick(countries) {
   console.log("countries length: "+countries.length)  
   var index = Math.floor(Math.random()*248);
@@ -48,20 +46,20 @@ function pick(countries) {
   Data.dataSource = geocoder_endpoint+Data.countryName+".json?types=country&access_token="+accessToken+"";
 }
 
-// used to pass messages to the screen
+// Pass messages to the screen
 function say(status,where){
   var msg = document.querySelector("#"+where+"-message");
   msg.textContent = status;
 }
 
-// used to flip to a map style that includes names of countries
+// Draw the map style that includes names of countries
 function addCountryNames() {
   console.log("country names")
   MapObj.map.setStyle(worldBaseNames);   
 }
 
-// the MapBox geocoder sometimes returns bounding boxes that are hard to map.  
-// This edits some data to produce a more meaningful display
+// The MapBox geocoder sometimes returns bounding boxes that are hard to map.  
+// Edit these outliers to produce a more meaningful display
 function fixData(){
   if (Data.countryName === "United States") Data.countryBounds = [-179.330950579, 18.765563302, -85, 71.540723637]; 
   if (Data.countryName === "Russia") Data.countryBounds = [60, 41.185352938, 180.099847971, 81.961618459]
@@ -74,6 +72,23 @@ function fixData(){
     if (Data.countryName === badOnes[i]) playGame();
     }  
 }
+
+// Call to MapBox Geocoder API to get bounding box of selected country
+function getCountry(){
+  $.get(Data.dataSource,function(data){})
+    .done(function(data){
+      if (data.features.length == 0) playGame();  // restart if no bounding box is returned
+      else {
+        Data.countryBounds = data.features[0].bbox;  // set bounding box for fitBounds call in showMap()
+        fixData();                  //  change bounding box if it's big enough to wrap around int'l dateline
+        console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
+      }
+    })  
+    .fail(function(response){
+      console.log("Error: '", response.statusText,"'");
+    });
+  return Data.countryName;
+}   
 
 function showMap(){
   // creates the map with a default location in equatorial Africa and a style I authored in MapBox Studio
@@ -169,19 +184,5 @@ function guessLoop(){
   // })
 }
 
-function getCountry(){
-$.get(Data.dataSource,function(data){})
-  .done(function(data){
-    if (!data.features[0].bbox) playGame()
-    else {
-      Data.countryBounds = data.features[0].bbox;
-      fixData();
-      console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
-    }
-  })  //end of map load
-  .fail(function(response){
-    console.log("Error: '", response.statusText,"'");
-  });
-  return Data.countryName;
-}   // end of runTheGame
+
 
