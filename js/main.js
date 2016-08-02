@@ -130,6 +130,8 @@ function intro(){
 }
 
 function guessLoop(){
+  $("form").submit(function(event){
+    event.preventDefault();
     var guess = $("input#guess").val()
     console.log("value ",guess)
     if (guess == Data.countryName) {
@@ -140,7 +142,7 @@ function guessLoop(){
       say("Try again!","footer")
     }
     // guessLoop()
-  // })
+  })
 }
 
 // terribly complicated code to use placeholder attribute of input box to manage
