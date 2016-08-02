@@ -81,7 +81,7 @@ function getCountry(){
       else {
         Data.countryBounds = data.features[0].bbox;  // set bounding box for fitBounds call in showMap()
         fixData();                  //  change bounding box if it's big enough to wrap around int'l dateline
-        console.log("answer: ",Data.countryName, Data.countryBounds,"\n","map: ",map)
+        console.log("answer: ",Data.countryName, Data.countryBounds)
       }
     })  
     .fail(function(response){
@@ -129,12 +129,7 @@ function intro(){
   })
 }
 
-// terribly complicated code to use placeholder attribute of input box to manage
-// guesses because submit events cause page to reload with no guess handling
 function guessLoop(){
-  var guessForm = document.querySelector("#guess")
-  guessForm.addEventListener("submit",function(event){
-    event.preventDefault();
     var guess = $("input#guess").val()
     console.log("value ",guess)
     if (guess == Data.countryName) {
@@ -144,9 +139,12 @@ function guessLoop(){
       console.log("incorrect guess")
       say("Try again!","footer")
     }
-    guessLoop()
-  })
+    // guessLoop()
+  // })
+}
 
+// terribly complicated code to use placeholder attribute of input box to manage
+// guesses because submit events cause page to reload with no guess handling
   // var guessForm = document.querySelector("#guess")
   // guessForm.addEventListener("keypress",function(event){
   // event.preventDefault();
@@ -182,7 +180,7 @@ function guessLoop(){
   // }
 
   // })
-}
+// }
 
 
 
