@@ -1,3 +1,0 @@
-add fixData to change returned bounding box
-add comments
-filter API results to countries only
