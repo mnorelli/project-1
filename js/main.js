@@ -132,15 +132,17 @@ function intro(){
 function guessLoop(){
   $("form").submit(function(event){
     event.preventDefault();
-    var guess = $("input#guess").val()
-    console.log("value ",guess)
+    var guess = $("input#guess").val();
+    console.log("value ",guess);
     if (guess == Data.countryName) {
+      say("Well done!","footer");
       alert("You guessed it! "+Data.countryName.toUpperCase());
       addCountryNames();
     } else {
-      console.log("incorrect guess")
-      say("Try again!","footer")
+      console.log("incorrect guess");
+      say("Not "+guess+".  Try again!","footer");
     }
+    $("input#guess").val("");
     // guessLoop()
   })
 }
